@@ -24,6 +24,6 @@ script:
   # - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
   # - docker push $REPO
   # - ./build-images.sh
-  - build () {docker build -t $1:$2 $3; docker push $1;}
+  - build () { docker build -t $1:$2 $3; docker push $1; }
   - build "arashpz/data-caching-ci" "server" "./benchmarks/data-caching/server"
   - build "arashpz/data-caching-ci" "client" "./benchmarks/data-caching/client"
