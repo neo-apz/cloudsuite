@@ -10,7 +10,7 @@ env:
     # - secure: "rMQ3hIldxxmxOY+pKY34MushLVwTogrYIJQwgrQrCK/sc9r7GKL5/lwhTl/QAsYWnDgeIYSN6KvL+1jnr4FvHQxtfsIJIfp/yHjeVy7bUTXu4a54rZRYf+Qt+iJlhTM3ormgFXwxoCdWDryoYYdpBk15hlW6g5RBMgKdeGBnE2lUXkP20Kdf3q3xQp+YarOR5c5hX991M8WR094pMcKuh76c/MTpaNYwdiCjfzyOXPejQ8ZZMEf5xEG8Nhb5fmaQpWJMQ4zyvA5uuwFASAtjyi5sut994Tl1UuwBQt7T/91ClkFKKf91rZOKoYrVICs9LzcsTkwUTdv/flhuBxI7rLU1ZlWOIKtnJEljGU1ItDQZI0IhPqpt2FbdYBRMAfeCuDYRZifheXRVMDW8mQ7kRDTHnkw4A/fJmk6kBEKPpxuuBNZiLuLWEosOakU9OEsI25YWG33rfSrAL1+SQfKimQgd85jf/50gRnJWN/YPUmqkMJy0tNcQDVLun+OL6YRpPzotzbCvukzeQeawv1YYwWWvLUvFfl3TcpTKusbVFF8zN2LpTCzbfqMlo62DVOVQBQBjgq+sYYXlKhTsHR5+5wzfQ+oWGdRuPs7PXNa5REsQkjsWWxs6AtAQrAja3NRqboAZKptI2sfqNQIPlUwHGAbatvh6iqecDaU+0PMlFp4=" # DOCKER_PASS
     - COMMIT=${TRAVIS_COMMIT::8}
 
-after_success:
+before_install:
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=arashpz/data-caching-ci
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
