@@ -1,5 +1,7 @@
 sudo: required
 
+language: bash
+
 services:
   - docker
 
@@ -10,6 +12,9 @@ env:
     # - secure: "rMQ3hIldxxmxOY+pKY34MushLVwTogrYIJQwgrQrCK/sc9r7GKL5/lwhTl/QAsYWnDgeIYSN6KvL+1jnr4FvHQxtfsIJIfp/yHjeVy7bUTXu4a54rZRYf+Qt+iJlhTM3ormgFXwxoCdWDryoYYdpBk15hlW6g5RBMgKdeGBnE2lUXkP20Kdf3q3xQp+YarOR5c5hX991M8WR094pMcKuh76c/MTpaNYwdiCjfzyOXPejQ8ZZMEf5xEG8Nhb5fmaQpWJMQ4zyvA5uuwFASAtjyi5sut994Tl1UuwBQt7T/91ClkFKKf91rZOKoYrVICs9LzcsTkwUTdv/flhuBxI7rLU1ZlWOIKtnJEljGU1ItDQZI0IhPqpt2FbdYBRMAfeCuDYRZifheXRVMDW8mQ7kRDTHnkw4A/fJmk6kBEKPpxuuBNZiLuLWEosOakU9OEsI25YWG33rfSrAL1+SQfKimQgd85jf/50gRnJWN/YPUmqkMJy0tNcQDVLun+OL6YRpPzotzbCvukzeQeawv1YYwWWvLUvFfl3TcpTKusbVFF8zN2LpTCzbfqMlo62DVOVQBQBjgq+sYYXlKhTsHR5+5wzfQ+oWGdRuPs7PXNa5REsQkjsWWxs6AtAQrAja3NRqboAZKptI2sfqNQIPlUwHGAbatvh6iqecDaU+0PMlFp4=" # DOCKER_PASS
     - COMMIT=${TRAVIS_COMMIT::8}
 
+before_script:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USER" -p="$DOCKER_PASS"
+
 script:
   # - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USER" -p="$DOCKER_PASS"
   # - export REPO=arashpz/data-caching-ci
@@ -18,4 +23,7 @@ script:
   # - docker tag $REPO:$COMMIT $REPO:$TAG
   # - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
   # - docker push $REPO
-  - ./build-images.sh
+  # - ./build-images.sh
+  - build () {docker build -t $1:$2 $3; docker push $1;}
+  - build "arashpz/data-caching-ci" "server" "./benchmarks/data-caching/server"
+  - build "arashpz/data-caching-ci" "client" "./benchmarks/data-caching/client"
